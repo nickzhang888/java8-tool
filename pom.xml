@@ -8,7 +8,7 @@
     <artifactId>nick</artifactId>
     <version>1.0.0</version>
     <name>nick</name>
-    <description>Demo</description>
+    <description>tool</description>
     
     <properties>
         <nick.version>1.0.0</nick.version>
@@ -168,7 +168,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-<!--                <version>3.1</version>-->
+                <version>3.1</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
