@@ -13,7 +13,7 @@ spring:
     url: jdbc:mysql://localhost:3306/mybase?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
     username: root
     password: 123456
-#redis配置
+  #redis配置
   redis:
     host: localhost
     port: 6379
