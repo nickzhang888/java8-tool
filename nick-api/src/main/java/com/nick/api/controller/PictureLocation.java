@@ -1,24 +1,22 @@
 package com.nick.api.controller;
 
+import com.alibaba.fastjson2.JSONObject;
 import com.drew.imaging.ImageMetadataReader;
 import com.drew.imaging.ImageProcessingException;
 import com.drew.metadata.Directory;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.Tag;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nick.common.utils.http.HttpUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Map;
 
 @Slf4j
 public class PictureLocation {
     public static void main(String[] args) throws Exception {
 
-        File file = new File("C:\\Users\\PGS\\Downloads\\3.jpg");
+        File file = new File("C:\\Users\\PGS\\Downloads\\5.jpg");
         readImageInfo(file);
     }
 
@@ -119,31 +117,28 @@ public class PictureLocation {
     private static void convertGpsToLoaction(double gps_latitude, double gps_longitude) throws IOException {
         String apiKey = "MTdrAebsGT07f9oUQL1cXwTOCFmWyttg";
         String url = "http://api.map.baidu.com/reverse_geocoding/v3/?ak=" + apiKey + "&output=json&coordtype=wgs84ll&location=" + (gps_latitude + "," + gps_longitude);
-        System.err.println("【url】" + url);
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> res = restTemplate.getForEntity(url, String.class);
-
-
-        // 获取响应的状态码
-        int statusCode = res.getStatusCodeValue();
-
-        // 获取响应体
-        String responseBody = res.getBody();
-        ObjectMapper objectMapper = new ObjectMapper();
-        Map<String, Object> map = objectMapper.readValue(responseBody, Map.class);
-        Map<String, Object> info = (Map<String, Object>) map.get("result");
-        String address = (String) info.get("formatted_address");
-        System.err.println("地址是" + address);
-
-//        res = HttpUtils.httpGet(url);
-//        JSONObject object = JSONObject.parseObject(res);
-//        if (object.containsKey("result")) {
-//            JSONObject result = object.getJSONObject("result");
-//            if (result.containsKey("addressComponent")) {
-//                JSONObject address = object.getJSONObject("result").getJSONObject("addressComponent");
-//                System.err.println("拍摄地点：" + address.get("country") + " " + address.get("province") + " " + address.get("city") + " " + address.get("district") + " "
-//                        + address.get("street") + " " + result.get("formatted_address") + " " + result.get("business"));
-//            }
-//        }
+        //使用 java的HttpURLConnection方法
+        String res = HttpUtils.sendGet(url);
+        JSONObject object = JSONObject.parseObject(res);
+        if (object.containsKey("result")) {
+            JSONObject result = object.getJSONObject("result");
+            if (result.containsKey("formatted_address")) {
+                String address = result.getString("formatted_address");
+                System.err.println("拍摄地点：" + address);
+            }
+        }
+//        使用springboot的RestTemplate方法
+//        System.err.println("【url】" + url);
+//        RestTemplate restTemplate = new RestTemplate();
+//        ResponseEntity<String> res = restTemplate.getForEntity(url, String.class);
+//        // 获取响应的状态码
+//        int statusCode = res.getStatusCodeValue();
+//        // 获取响应体
+//        String responseBody = res.getBody();
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        Map<String, Object> map = objectMapper.readValue(responseBody, Map.class);
+//        Map<String, Object> info = (Map<String, Object>) map.get("result");
+//        String address = (String) info.get("formatted_address");
+//        System.err.println("地址是" + address);
     }
 }

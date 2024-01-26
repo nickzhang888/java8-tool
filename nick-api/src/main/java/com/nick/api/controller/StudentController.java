@@ -1,7 +1,7 @@
 package com.nick.api.controller;
 
-import com.nick.api.entity.PersonalInfo;
-import com.nick.api.entity.Student;
+import com.nick.api.domain.PersonalInfo;
+import com.nick.api.domain.Student;
 import com.nick.api.service.StudentService;
 import com.nick.common.core.domain.AjaxResult;
 import org.springframework.beans.factory.annotation.Autowired;

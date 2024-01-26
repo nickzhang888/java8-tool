@@ -1,6 +1,6 @@
 package com.nick.api.service;
 
-import com.nick.api.entity.Student;
+import com.nick.api.domain.Student;
 import com.nick.api.mapper.StudentMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,7 +1,6 @@
 package com.nick.api.service;
 
-import com.nick.api.entity.City;
-
+import com.nick.api.domain.City;
 import com.nick.api.mapper.CityMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

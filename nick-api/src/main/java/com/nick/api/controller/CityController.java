@@ -1,8 +1,8 @@
 package com.nick.api.controller;
 
-import com.nick.api.entity.City;
-import com.nick.api.service.CityService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nick.api.domain.City;
+import com.nick.api.service.CityService;
 import com.nick.common.core.domain.AjaxResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

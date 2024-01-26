@@ -1,4 +1,4 @@
-package com.nick.api.entity;
+package com.nick.api.domain;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;

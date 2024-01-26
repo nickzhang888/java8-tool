@@ -1,4 +1,4 @@
-package com.nick.api.entity;
+package com.nick.api.domain;
 
 import java.util.Objects;
 

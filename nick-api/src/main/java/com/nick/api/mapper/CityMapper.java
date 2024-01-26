@@ -1,7 +1,6 @@
 package com.nick.api.mapper;
 
-import com.nick.api.entity.City;
-import com.nick.api.entity.Student;
+import com.nick.api.domain.City;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
