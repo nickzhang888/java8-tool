@@ -29,7 +29,7 @@ public class CityController {
     public AjaxResult subway(City city) {
         AjaxResult ajax = AjaxResult.success();
         List<City> cityList = cityService.findCity(city);
-        if (cityList.size() > 0) {
+        if (!cityList.isEmpty()) {
             ajax.put("data", cityList);
         } else {
             String apiUrl = "https://map.baidu.com/?qt=subwayscity";

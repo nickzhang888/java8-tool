@@ -21,7 +21,7 @@ spring:
 # MyBatis配置
 mybatis:
   # 搜索指定包别名
-  typeAliasesPackage: com.nick.api.entity
+  typeAliasesPackage: com.nick.api.domain
   # 配置mapper的扫描，找到所有的mapper.xml映射文件
   mapper-locations: classpath:mapper/*.xml
   # 加载全局的配置文件

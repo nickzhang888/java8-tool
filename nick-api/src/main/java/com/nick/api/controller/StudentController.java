@@ -75,7 +75,7 @@ public class StudentController {
 
     @PostMapping("/addUser")
     public ResponseEntity addUser(@RequestBody Student student) {
-        System.out.println(student.getClass().getName());
+        System.err.println(student.getClass().getName());
         Map<String, Object> response = new HashMap<String, Object>();
         studentService.addUser(student);
         response.put("code", 200);
