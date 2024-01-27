@@ -13,5 +13,5 @@ public interface StudentMapper {
 
     public int updateUser(Student student);
 
-    public int deleteUserById(Integer id);
+    public int deleteUserByIds(Long[] ids);
 }

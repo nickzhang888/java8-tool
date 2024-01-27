@@ -3,6 +3,7 @@ package com.nick.api.controller;
 import com.nick.api.domain.PersonalInfo;
 import com.nick.api.domain.Student;
 import com.nick.api.service.StudentService;
+import com.nick.common.core.controller.BaseController;
 import com.nick.common.core.domain.AjaxResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,7 +17,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
-public class StudentController {
+public class StudentController extends BaseController {
     @Autowired
     private Environment environment;
 
@@ -64,8 +65,8 @@ public class StudentController {
 
     @GetMapping("/getUser")
     public ResponseEntity getUser(Student student) {
+        System.err.println(student.getClass().getName());
         Map<String, Object> response = new HashMap<String, Object>();
-
         List<Student> students = studentService.findUser(student);
         response.put("code", 200);
         response.put("message", "成功");
@@ -75,7 +76,6 @@ public class StudentController {
 
     @PostMapping("/addUser")
     public ResponseEntity addUser(@RequestBody Student student) {
-        System.err.println(student.getClass().getName());
         Map<String, Object> response = new HashMap<String, Object>();
         studentService.addUser(student);
         response.put("code", 200);
@@ -93,14 +93,15 @@ public class StudentController {
     }
 
     @PostMapping("/deleteUser")
-    public ResponseEntity deleteUser(@RequestBody Integer[] ids) {
-        Map<String, Object> response = new HashMap<String, Object>();
-
-        for (Integer id : ids) {
-            studentService.deleteUserById(id);
-        }
-        response.put("code", 200);
-        response.put("message", "删除成功");
-        return ResponseEntity.ok(response);
+    public AjaxResult deleteUser(@RequestBody Long[] ids) {
+//        Map<String, Object> response = new HashMap<String, Object>();
+//        for (Integer id : ids) {
+//            studentService.deleteUserById(id);
+//        }
+//        response.put("code", 200);
+//        response.put("message", "删除成功");
+//        return ResponseEntity.ok(response);
+        return toAjax(studentService.deleteUserByIds(ids));
     }
+
 }

@@ -12,20 +12,23 @@
             <if test="sex != null">and sex = #{sex}</if>
         </where>
     </select>
-    <insert id="addUser" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+    <insert id="addUser" useGeneratedKeys="true" keyColumn="id" keyProperty="id" parameterType="Student">
         INSERT INTO student(name, age, sex)
         VALUES (#{name}, #{age}, #{sex})
     </insert>
-    <update id="updateUser">
+    <update id="updateUser" parameterType="Student">
         UPDATE student
         SET name = #{name},
             age  = #{age},
             sex=#{sex}
         WHERE id = #{id}
     </update>
-    <delete id="deleteUserById">
+    <delete id="deleteUserByIds" parameterType="Long">
         DELETE
         FROM student
-        WHERE id = #{id}
+        WHERE id in
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
     </delete>
 </mapper>

@@ -24,13 +24,8 @@ public class StudentService {
         return studentMapper.updateUser(student);
     }
 
-    public int deleteUserById(Integer id) {
-        return studentMapper.deleteUserById(id);
+    public int deleteUserByIds(Long[] ids) {
+        return studentMapper.deleteUserByIds(ids);
     }
-
-    // @Override
-    // public List<Student> findUser() {
-    // return studentMapper.findUser();
-    // }
 
 }
