@@ -60,11 +60,12 @@ public class CityController {
                     for (City item : arrayList) {
                         cityService.addCity(item);
                     }
+                    ajax.put("data", arrayList);
 
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                ajax.put("data", arrayList);
+
             }
         }
         return ajax;
