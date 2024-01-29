@@ -42,13 +42,9 @@ public class StudentController extends BaseController {
 
 
     @GetMapping("/hello")
-    public ResponseEntity hello() {
+    public AjaxResult hello() {
         String message = "hello world";
-        HashMap<String, Object> response = new HashMap<String, Object>();
-        response.put("code", 200);
-        response.put("message", "成功");
-        response.put("data", message);
-        return ResponseEntity.ok(response);
+        return AjaxResult.success(message);
     }
 
     @GetMapping("/test")
@@ -75,21 +71,13 @@ public class StudentController extends BaseController {
     }
 
     @PostMapping("/addUser")
-    public ResponseEntity addUser(@RequestBody Student student) {
-        Map<String, Object> response = new HashMap<String, Object>();
-        studentService.addUser(student);
-        response.put("code", 200);
-        response.put("message", "新增成功");
-        return ResponseEntity.ok(response);
+    public AjaxResult addUser(@RequestBody Student student) {
+        return toAjax(studentService.addUser(student));
     }
 
     @PostMapping("/updateUser")
-    public ResponseEntity updateUser(@RequestBody Student student) {
-        Map<String, Object> response = new HashMap<String, Object>();
-        studentService.updateUser(student);
-        response.put("code", 200);
-        response.put("message", "修改成功");
-        return ResponseEntity.ok(response);
+    public AjaxResult updateUser(@RequestBody Student student) {
+        return toAjax(studentService.updateUser(student));
     }
 
     @PostMapping("/deleteUser")

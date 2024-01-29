@@ -13,6 +13,11 @@ spring:
     url: jdbc:mysql://localhost:3306/mybase?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
     username: root
     password: 123456
+    hikari:
+#        minimum-idle: 3
+#        maximum-pool-size: 10
+        max-lifetime: 60000   #不能小于30s，设了60s
+#        connection-test-query: SELECT 1
   #redis配置
   redis:
     host: localhost
