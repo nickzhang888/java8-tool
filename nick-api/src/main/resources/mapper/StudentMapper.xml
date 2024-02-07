@@ -19,8 +19,8 @@
     <update id="updateUser" parameterType="Student">
         UPDATE student
         SET name = #{name},
-            age  = #{age},
-            sex=#{sex}
+            age = #{age},
+            sex = #{sex}
         WHERE id = #{id}
     </update>
     <delete id="deleteUserByIds" parameterType="Long">

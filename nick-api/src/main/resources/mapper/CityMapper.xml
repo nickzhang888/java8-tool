@@ -7,7 +7,7 @@
         SELECT * FROM metro_city
         <where>
             <if test="id != null">and id = #{id}</if>
-            <if test="name != null">and name = #{name}</if>
+            <if test="name != null">and name like #{name}"%"</if>
             <if test="code != null">and code = #{code}</if>
         </where>
     </select>
@@ -17,11 +17,11 @@
         INSERT INTO metro_city(name, code)
         VALUES (#{name}, #{code})
     </insert>
-    <update id="updateCity">
+    <update id="updateCity" >
         UPDATE metro_city
-        SET name = #{name},
-            code = #{code},
-            WHERE id = #{id}
+        SET lng = #{lng},
+            lat = #{lat}
+        WHERE name = #{name}
     </update>
     <delete id="deleteCityById">
         DELETE
