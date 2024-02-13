@@ -5,6 +5,7 @@ import com.nick.api.domain.Student;
 import com.nick.api.service.StudentService;
 import com.nick.common.core.controller.BaseController;
 import com.nick.common.core.domain.AjaxResult;
+import com.nick.common.core.page.TableDataInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
@@ -50,7 +51,7 @@ public class StudentController extends BaseController {
     @GetMapping("/test")
     public AjaxResult test() {
         String message = "hello world";
-        Student s1 = new Student(12, "小妮", 18, "女");
+        Student s1 = new Student("小妮", 18, "女");
         AjaxResult ajax = AjaxResult.success();
         ajax.put("user", s1);
         return ajax;
@@ -60,14 +61,11 @@ public class StudentController extends BaseController {
     private StudentService studentService;
 
     @GetMapping("/getUser")
-    public ResponseEntity getUser(Student student) {
+    public TableDataInfo getUser(Student student) {
         System.err.println(student.getClass().getName());
-        Map<String, Object> response = new HashMap<String, Object>();
+        startPage();
         List<Student> students = studentService.findUser(student);
-        response.put("code", 200);
-        response.put("message", "成功");
-        response.put("data", students);
-        return ResponseEntity.ok(response);
+        return getDataTable(students);
     }
 
     @PostMapping("/addUser")

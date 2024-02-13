@@ -3,7 +3,15 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.nick.api.mapper.StudentMapper">
-    <select id="findUser" resultType="Student">
+<!--    Student表示实体类 ,id给下面的resultMap使用-->
+    <resultMap type="Student" id="StudentResult">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="age" column="age"/>
+        <result property="sex" column="sex"/>
+    </resultMap>
+<!--    resultMap->复杂的映射逻辑 ,resultType->简单的映射逻辑,选其一即可-->
+    <select id="findUser" resultMap="StudentResult">
         SELECT * FROM student
         <where>
             <if test="id != null">and id = #{id}</if>
@@ -19,8 +27,8 @@
     <update id="updateUser" parameterType="Student">
         UPDATE student
         SET name = #{name},
-            age = #{age},
-            sex = #{sex}
+            age  = #{age},
+            sex  = #{sex}
         WHERE id = #{id}
     </update>
     <delete id="deleteUserByIds" parameterType="Long">

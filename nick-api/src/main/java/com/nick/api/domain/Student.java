@@ -19,12 +19,13 @@ public class Student {
     }
 
 
-    public Student(Integer id, String name, Integer age, String sex) {
-        this.id = id;
+    public Student(String name, Integer age, String sex) {
         this.name = name;
         this.age = age;
         this.sex = sex;
     }
+
+
 
     @Override
     public String toString() {
