@@ -25,6 +25,11 @@
             <artifactId>nick-common</artifactId>
             <version>1.0.0</version>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.nick</groupId>-->
+<!--            <artifactId>nick-framework</artifactId>-->
+<!--            <version>1.0.0</version>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>org.yeauty</groupId>
             <artifactId>netty-websocket-spring-boot-starter</artifactId>

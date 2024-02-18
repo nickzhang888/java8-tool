@@ -160,6 +160,7 @@
     <modules>
         <module>nick-api</module>
         <module>nick-common</module>
+<!--        <module>nick-framework</module>-->
     </modules>
     <packaging>pom</packaging>
 

@@ -1,7 +1,7 @@
 package com.nick.api.domain;
 
+import com.nick.common.annotation.Excel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Objects;
@@ -9,9 +9,13 @@ import java.util.Objects;
 @Setter
 @Getter
 public class Student {
+    @Excel(name = "id", prompt = "用户编号")
     private Integer id;
+    @Excel(name = "用户名称")
     private String name;
+    @Excel(name = "用户年龄")
     private Integer age;
+    @Excel(name = "用户性别")
     private String sex;
 
     public Student() {

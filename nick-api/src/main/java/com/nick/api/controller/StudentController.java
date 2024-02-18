@@ -3,18 +3,19 @@ package com.nick.api.controller;
 import com.nick.api.domain.PersonalInfo;
 import com.nick.api.domain.Student;
 import com.nick.api.service.StudentService;
+import com.nick.common.annotation.RepeatSubmit;
 import com.nick.common.core.controller.BaseController;
 import com.nick.common.core.domain.AjaxResult;
 import com.nick.common.core.page.TableDataInfo;
+import com.nick.common.utils.poi.ExcelUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
-import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/api")
@@ -23,22 +24,24 @@ public class StudentController extends BaseController {
     private Environment environment;
 
     @Autowired
-    private PersonalInfo dataInfo;
+    private PersonalInfo personalInfo;
 
     //获取端口号
     @Value("${server.port}")
     private Integer port;
 
+    @GetMapping("/getPortByValue")
+    public Integer getPortByValue() {
+        return port;
+    }
     @GetMapping("/getPort")
     public Integer getPort() {
-        Integer p = Integer.valueOf(environment.getProperty("server.port"));
-//        Integer p = port;
-        return p;
+        return Integer.valueOf(Objects.requireNonNull(environment.getProperty("server.port")));
     }
 
-    @GetMapping("/getDataInfo")
-    public String getDataInfo() {
-        return dataInfo.toString();
+    @GetMapping("/getPersonalInfo")
+    public String getPersonalInfo() {
+        return personalInfo.toString();
     }
 
 
@@ -50,8 +53,7 @@ public class StudentController extends BaseController {
 
     @GetMapping("/test")
     public AjaxResult test() {
-        String message = "hello world";
-        Student s1 = new Student("小妮", 18, "女");
+        Student s1 = new Student("小妮", 18, "男");
         AjaxResult ajax = AjaxResult.success();
         ajax.put("user", s1);
         return ajax;
@@ -61,11 +63,18 @@ public class StudentController extends BaseController {
     private StudentService studentService;
 
     @GetMapping("/getUser")
+    @RepeatSubmit(interval = 1000,message="不允许重复调用")
     public TableDataInfo getUser(Student student) {
         System.err.println(student.getClass().getName());
         startPage();
-        List<Student> students = studentService.findUser(student);
-        return getDataTable(students);
+        List<Student> list = studentService.findUser(student);
+        return getDataTable(list);
+    }
+    @PostMapping("/exportUser")
+    public void export(HttpServletResponse response, Student student) {
+        List<Student> list = studentService.findUser(student);
+        ExcelUtil<Student> util = new ExcelUtil<>(Student.class);
+        util.exportExcel(list, "用户数据");
     }
 
     @PostMapping("/addUser")

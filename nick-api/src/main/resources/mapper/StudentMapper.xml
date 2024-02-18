@@ -19,6 +19,7 @@
             <if test="age != null">and age = #{age}</if>
             <if test="sex != null">and sex = #{sex}</if>
         </where>
+        order by id asc
     </select>
     <insert id="addUser" useGeneratedKeys="true" keyColumn="id" keyProperty="id" parameterType="Student">
         INSERT INTO student(name, age, sex)
