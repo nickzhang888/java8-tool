@@ -2,14 +2,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.nick</groupId>
     <artifactId>nick</artifactId>
     <version>1.0.0</version>
     <name>nick</name>
     <description>tool</description>
-    
+
     <properties>
         <nick.version>1.0.0</nick.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -29,7 +29,7 @@
         <velocity.version>2.3</velocity.version>
         <jwt.version>0.9.1</jwt.version>
     </properties>
-	
+
     <!-- 依赖声明 -->
     <dependencyManagement>
         <dependencies>
@@ -135,11 +135,11 @@
 
 
             <!-- 系统模块-->
-<!--            <dependency>-->
-<!--                <groupId>com.nick</groupId>-->
-<!--                <artifactId>nick-system</artifactId>-->
-<!--                <version>${nick.version}</version>-->
-<!--            </dependency>-->
+            <!--            <dependency>-->
+            <!--                <groupId>com.nick</groupId>-->
+            <!--                <artifactId>nick-system</artifactId>-->
+            <!--                <version>${nick.version}</version>-->
+            <!--            </dependency>-->
 
             <!-- api-->
             <dependency>
@@ -156,11 +156,11 @@
 
         </dependencies>
     </dependencyManagement>
-<!--    子模块-->
+    <!--    子模块-->
     <modules>
         <module>nick-api</module>
         <module>nick-common</module>
-<!--        <module>nick-framework</module>-->
+        <module>nick-framework</module>
     </modules>
     <packaging>pom</packaging>
 
