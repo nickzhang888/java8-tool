@@ -63,7 +63,7 @@ public class StudentController extends BaseController {
     private StudentService studentService;
 
     @GetMapping("/getUser")
-    @RepeatSubmit(interval = 1000,message="不允许重复调用")
+    @RepeatSubmit()
     public TableDataInfo getUser(Student student) {
         System.err.println(student.getClass().getName());
         startPage();
