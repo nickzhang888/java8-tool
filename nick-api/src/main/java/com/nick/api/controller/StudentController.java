@@ -14,6 +14,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
@@ -71,10 +72,11 @@ public class StudentController extends BaseController {
         return getDataTable(list);
     }
     @PostMapping("/exportUser")
-    public void export(HttpServletResponse response, Student student) {
+    @ResponseBody
+    public void export(HttpServletResponse response,Student student) throws IOException {
         List<Student> list = studentService.findUser(student);
         ExcelUtil<Student> util = new ExcelUtil<>(Student.class);
-        util.exportExcel(list, "用户数据");
+        util.exportExcel(response,list, "用户数据");
     }
 
     @PostMapping("/addUser")

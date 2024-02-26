@@ -9,7 +9,7 @@ import java.util.Objects;
 @Setter
 @Getter
 public class Student {
-    @Excel(name = "id", prompt = "用户编号")
+    @Excel(name = "用户id", prompt = "用户编号")
     private Integer id;
     @Excel(name = "用户名称")
     private String name;
