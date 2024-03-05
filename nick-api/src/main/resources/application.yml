@@ -14,10 +14,10 @@ spring:
     username: root
     password: 123456
     hikari:
-#        minimum-idle: 3
-#        maximum-pool-size: 10
-        max-lifetime: 60000   #不能小于30s，设了60s
-#        connection-test-query: SELECT 1
+      #        minimum-idle: 3
+      #        maximum-pool-size: 10
+      max-lifetime: 60000   #不能小于30s，设了60s
+  #        connection-test-query: SELECT 1
   #redis配置
   redis:
     host: localhost
@@ -38,3 +38,9 @@ pagehelper:
   supportMethodsArguments: true
   params: count=countSql
 
+netty:
+  websocket:
+    enable: true # 是否开启websocket
+    port: 9084 #socket连接端口
+    #    port:  8888 #socket连接端口
+    path: /ws/tdsa #socket连接路径 url后可以带参数 如ws://localhost:8082/ws/tdsa?userId=1
