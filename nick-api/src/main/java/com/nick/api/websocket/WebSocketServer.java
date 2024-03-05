@@ -2,10 +2,7 @@ package com.nick.api.websocket;
 
 import com.nick.common.utils.ip.IpUtils;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
@@ -20,18 +17,12 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 
-/**
- * @author 纪淮永
- * @ClassName: WebSocketServer
- * @Description: webSocket服务初始化
- * @date 2021年4月27日 上午10:25:01
- */
 @Slf4j
 @Component
 public class WebSocketServer {
 
     @Autowired
-    private com.nick.api.modules.websocket.WebSocketServerHandler webSocketServerHandler;
+    private WebSocketServerHandler webSocketServerHandler;
 
     @Value("${netty.websocket.enable}")
     private Boolean websocketEnable;
@@ -45,18 +36,13 @@ public class WebSocketServer {
     @PostConstruct()
     public void init() {
         // 需要开启一个新的线程来执行netty server 服务器
-        if (websocketEnable) {
+        if(websocketEnable) {
             new Thread(() -> {
                 startServer();
             }).start();
         }
     }
 
-    /**
-     * @throws Exception
-     * @Description: 启动webSocket服务
-     * @author 纪淮永
-     */
     private void startServer() {
         // 配置服务端NIO线程组
         EventLoopGroup bossGroup = new NioEventLoopGroup();
@@ -77,13 +63,13 @@ public class WebSocketServer {
                             socketChannel.pipeline().addLast(new ChunkedWriteHandler());
                             // 优先加载Handler解决URL传参断开连接
                             socketChannel.pipeline().addLast(webSocketServerHandler);
-                            socketChannel.pipeline().addLast(new WebSocketServerProtocolHandler(websocketPath, null, true, 65536));
+                            socketChannel.pipeline().addLast(new WebSocketServerProtocolHandler(websocketPath,null,true,65536));
                         }
                     });
             ChannelFuture channelFuture = bootstrap.bind(websocketPort).sync(); // 服务器异步创建绑定
             log.info("webSocket初始化成功,连接地址  ws://{}:{}{}", IpUtils.getHostIp(), websocketPort, websocketPath);
             channelFuture.channel().closeFuture().sync(); // 关闭服务器通道
-        } catch (InterruptedException e) {
+        } catch(InterruptedException e) {
             log.error("webSocket初始化异常:{}", e.getMessage());
         } finally {
             // netty优雅停机

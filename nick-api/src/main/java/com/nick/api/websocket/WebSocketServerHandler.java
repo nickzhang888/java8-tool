@@ -1,8 +1,5 @@
 package com.nick.api.websocket;
 
-import com.alibaba.fastjson.JSON;
-import com.nick.api.constant.WebSocket;
-import com.nick.api.modules.alarm.entity.AlarmEntity;
 import com.nick.common.utils.StringUtils;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler.Sharable;
@@ -23,6 +20,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
+import static com.nick.api.websocket.WebSocket.channelMap;
 
 
 @Slf4j
@@ -90,17 +89,8 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<WebSocke
      * @param message
      * @Description: 将消息发送给指定在线客户端
      */
-    public void sendMessage(Long userId, AlarmEntity message) {
-        List<Channel> channelList = WebSocket.channelMap.get(userId);
-        if (CollectionUtils.isNotEmpty(channelList)) {
-            for (Channel channel : channelList) {
-                channel.writeAndFlush(new TextWebSocketFrame(JSON.toJSONString(message)));
-            }
-        }
-    }
-
     public void sendMessage(Long type, String message) {
-        List<Channel> channelList = WebSocket.channelMap.get(type);
+        List<Channel> channelList = channelMap.get(type);
         if (CollectionUtils.isNotEmpty(channelList)) {
             for (Channel channel : channelList) {
                 channel.writeAndFlush(new TextWebSocketFrame(message));
@@ -108,14 +98,6 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<WebSocke
         }
     }
 
-    public void sendMessage(String key, String message) {
-        ConcurrentHashMap<ChannelId, Channel> channelMap = WebSocket.channelEsMap.get(key);
-        if (MapUtils.isNotEmpty(channelMap)) {
-            channelMap.forEach((k, v) -> {
-                v.writeAndFlush(new TextWebSocketFrame(message));
-            });
-        }
-    }
 
     public void sendStationMessage(String key, String message) {
         ConcurrentHashMap<ChannelId, Channel> channelMap = WebSocket.stationChannelEsMap.get(key);
@@ -171,10 +153,10 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<WebSocke
                 }
             }
 
-            List<Channel> channelList = WebSocket.channelMap.get(userId);
+            List<Channel> channelList = channelMap.get(userId);
             channelList.remove(ctx.channel());
             WebSocket.userIdEsMap.remove(ctx.channel().id());
-            WebSocket.channelMap.put(userId, channelList);
+            channelMap.put(userId, channelList);
             // 移除ChannelGroup通道组
             boolean flag = channelGroup.remove(ctx.channel());
             if (flag) {
