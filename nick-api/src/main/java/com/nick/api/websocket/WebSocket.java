@@ -6,13 +6,6 @@ import io.netty.channel.ChannelId;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
-/**
- * @ClassName: WebSocket
- * @Description: 变量信息维护
- * @author 纪淮永
- * @date 2021年4月27日 上午10:25:01
- * 
- */
 public interface WebSocket {
 	
     // 维护userId和channel关系
