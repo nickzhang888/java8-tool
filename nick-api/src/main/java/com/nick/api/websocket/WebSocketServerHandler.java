@@ -52,6 +52,53 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<WebSocke
         handleWebSocketFrame(ctx, msg);
     }
 
+    private void handleWebSocketFrame(ChannelHandlerContext ctx, WebSocketFrame frame) {
+        // 判断是否是关闭链路的指令
+        if (frame instanceof CloseWebSocketFrame) {
+            Long userId = WebSocket.userIdMap.get(ctx.channel().id());
+            String escalatorsAndId = WebSocket.userIdEsMap.get(ctx.channel().id());
+            if (StringUtils.isNotBlank(escalatorsAndId)) {
+                if (MapUtils.isNotEmpty(WebSocket.channelEsMap.get(escalatorsAndId)) && WebSocket.channelEsMap.get(escalatorsAndId).containsKey(ctx.channel().id())) {
+                    WebSocket.channelEsMap.get(escalatorsAndId).remove(ctx.channel().id());
+                    WebSocket.userIdEsMap.remove(ctx.channel().id());
+                }
+                if (MapUtils.isNotEmpty(WebSocket.stationChannelEsMap.get(escalatorsAndId)) && WebSocket.stationChannelEsMap.get(escalatorsAndId).containsKey(ctx.channel().id())) {
+                    WebSocket.stationChannelEsMap.get(escalatorsAndId).remove(ctx.channel().id());
+                    WebSocket.userIdEsMap.remove(ctx.channel().id());
+                }
+            }
+            if (userId != null) {
+                List<Channel> channelList = channelMap.get(userId);
+                channelList.remove(ctx.channel());
+                WebSocket.userIdEsMap.remove(ctx.channel().id());
+                channelMap.put(userId, channelList);
+            }
+            // 移除ChannelGroup通道组
+            boolean flag = channelGroup.remove(ctx.channel());
+            if (flag) {
+                onlineCount--;
+                log.info("与客户端断开连接，当前在线人数:{}", onlineCount);
+            }
+            ctx.close();
+            return;
+        }
+        // 判断是否是Ping消息
+        if (frame instanceof PingWebSocketFrame) {
+            ctx.write(new PongWebSocketFrame(frame.content().retain()));
+            return;
+        }
+        if (frame instanceof TextWebSocketFrame) {
+            // 无业务 回发给客户端
+            log.info("接收到websocket信息:{}", ((TextWebSocketFrame) frame).text());
+            ctx.channel().writeAndFlush(new TextWebSocketFrame(((TextWebSocketFrame) frame).text()));
+            return;
+        }
+        if (frame instanceof BinaryWebSocketFrame) {
+            ctx.write(frame.retain());
+            return;
+        }
+    }
+
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         // 首次连接是FullHttpRequest，处理参数
@@ -67,7 +114,7 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<WebSocke
             boolean flag = channelGroup.add(ctx.channel());
             if (flag) {
                 onlineCount++;
-                log.info("与客户端建立连接成功，当前在线人数:{}", onlineCount);
+                log.info("与客户端连接成功，当前在线人数:{}", onlineCount);
             }
             // 自定义参数处理
             Map<String, String> paramMap = getParams(uri);
@@ -137,49 +184,5 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<WebSocke
         return params;
     }
 
-    private void handleWebSocketFrame(ChannelHandlerContext ctx, WebSocketFrame frame) {
-        // 判断是否是关闭链路的指令
-        if (frame instanceof CloseWebSocketFrame) {
-            Long userId = WebSocket.userIdMap.get(ctx.channel().id());
-            String escalatorsAndId = WebSocket.userIdEsMap.get(ctx.channel().id());
-            if (StringUtils.isNotBlank(escalatorsAndId)) {
-                if (MapUtils.isNotEmpty(WebSocket.channelEsMap.get(escalatorsAndId)) && WebSocket.channelEsMap.get(escalatorsAndId).containsKey(ctx.channel().id())) {
-                    WebSocket.channelEsMap.get(escalatorsAndId).remove(ctx.channel().id());
-                    WebSocket.userIdEsMap.remove(ctx.channel().id());
-                }
-                if (MapUtils.isNotEmpty(WebSocket.stationChannelEsMap.get(escalatorsAndId)) && WebSocket.stationChannelEsMap.get(escalatorsAndId).containsKey(ctx.channel().id())) {
-                    WebSocket.stationChannelEsMap.get(escalatorsAndId).remove(ctx.channel().id());
-                    WebSocket.userIdEsMap.remove(ctx.channel().id());
-                }
-            }
 
-            List<Channel> channelList = channelMap.get(userId);
-            channelList.remove(ctx.channel());
-            WebSocket.userIdEsMap.remove(ctx.channel().id());
-            channelMap.put(userId, channelList);
-            // 移除ChannelGroup通道组
-            boolean flag = channelGroup.remove(ctx.channel());
-            if (flag) {
-                onlineCount--;
-                log.info("与客户端断开连接成功，当前在线人数:{}", onlineCount);
-            }
-            ctx.close();
-            return;
-        }
-        // 判断是否是Ping消息
-        if (frame instanceof PingWebSocketFrame) {
-            ctx.write(new PongWebSocketFrame(frame.content().retain()));
-            return;
-        }
-        if (frame instanceof TextWebSocketFrame) {
-            // 无业务 回发给客户端
-            log.info("接收到websocket信息:{}", ((TextWebSocketFrame) frame).text());
-            ctx.channel().writeAndFlush(new TextWebSocketFrame(((TextWebSocketFrame) frame).text()));
-            return;
-        }
-        if (frame instanceof BinaryWebSocketFrame) {
-            ctx.write(frame.retain());
-            return;
-        }
-    }
 }

@@ -59,6 +59,5 @@ pagehelper:
 netty:
   websocket:
     enable: true # 是否开启websocket
-    port: 9084 #socket连接端口
-    #    port:  8888 #socket连接端口
-    path: /ws/tdsa #socket连接路径 url后可以带参数 如ws://localhost:8082/ws/tdsa?userId=1
+    port: 8888 #socket连接端口
+    path: /ws/tdsa #socket连接路径 url后可以带参数 如ws://localhost:8888/ws/tdsa?userId=1
