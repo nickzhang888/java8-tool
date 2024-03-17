@@ -17,6 +17,7 @@ public class Student {
     private Integer age;
     @Excel(name = "用户性别")
     private String sex;
+    private String describe;
 
     public Student() {
 

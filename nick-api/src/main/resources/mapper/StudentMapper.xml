@@ -9,17 +9,26 @@
         <result property="name" column="name"/>
         <result property="age" column="age"/>
         <result property="sex" column="sex"/>
+        <result property="describe" column="describe"/>
     </resultMap>
 <!--    resultMap->复杂的映射逻辑 ,resultType->简单的映射逻辑,选其一即可-->
+
     <select id="findUser" resultMap="StudentResult">
-        SELECT * FROM student
+        SELECT student.*,
+        (case when sex = '女' then  (CASE
+        WHEN age &lt; 25 THEN '年轻'
+        WHEN age &gt; 25 AND age &lt; 35 THEN '青壮年'
+        ELSE '老年'
+        END) end)  AS `describe`
+        FROM student
         <where>
             <if test="id != null">and id = #{id}</if>
             <if test="name != null">and name = #{name}</if>
             <if test="age != null">and age = #{age}</if>
             <if test="sex != null">and sex = #{sex}</if>
+            <if test="sex == '女'">AND sex = '女'</if>
         </where>
-        order by id asc
+        ORDER BY id ASC
     </select>
     <insert id="addUser" useGeneratedKeys="true" keyColumn="id" keyProperty="id" parameterType="Student">
         INSERT INTO student(name, age, sex)
