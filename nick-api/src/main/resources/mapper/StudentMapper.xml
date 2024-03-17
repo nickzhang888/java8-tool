@@ -16,9 +16,9 @@
     <select id="findUser" resultMap="StudentResult">
         SELECT student.*,
         (case when sex = '女' then  (CASE
-        WHEN age &lt; 25 THEN '年轻'
-        WHEN age &gt; 25 AND age &lt; 35 THEN '青壮年'
-        ELSE '老年'
+        WHEN age &lt;= 20 THEN '年轻,漂亮'
+        WHEN age &gt; 20 AND age &lt;= 28 THEN '风华正茂'
+        ELSE '老了'
         END) end)  AS `describe`
         FROM student
         <where>
