@@ -26,6 +26,7 @@ public class CityController {
 
     @Autowired
     private CityService cityService;
+
     //高雄,台式后面多加了个字市,查询为null,去掉市就可以了
     @GetMapping("updateCityByName")
     public AjaxResult updateCityByName(City city) {
@@ -46,7 +47,8 @@ public class CityController {
 
         return ajax;
     }
-    public void getLatLng(String cityName){
+
+    public void getLatLng(String cityName) {
         String url = "http://api.map.baidu.com/geocoder/v2/?output=json&ak=0it4Pc49C9eNBCQ6P86ZBw29APWcLXNj&address=" + cityName;
         String res = HttpUtils.sendGet(url);
         JSONObject obj = JSONObject.parseObject(res);
@@ -58,13 +60,11 @@ public class CityController {
                 String lat = location.getString("lat");
                 double lngDouble = Double.parseDouble(lng);
                 double latDouble = Double.parseDouble(lat);
-                City city = new City(cityName,lngDouble,latDouble);
+                City city = new City(cityName, lngDouble, latDouble);
                 cityService.updateCity(city);
             }
         }
     }
-
-
 
     @GetMapping("/getSubwayCity")
     public AjaxResult subway(City city) {
