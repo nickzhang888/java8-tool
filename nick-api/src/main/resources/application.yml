@@ -18,6 +18,10 @@ spring:
       #        maximum-pool-size: 10
       max-lifetime: 60000   #不能小于30s，设了60s
   #        connection-test-query: SELECT 1
+  servlet:
+    multipart:
+      max-file-size: 200MB
+      max-request-size: 200MB
   #redis配置
   redis:
     # 地址
@@ -61,3 +65,10 @@ netty:
     enable: true # 是否开启websocket
     port: 8888 #socket连接端口
     path: /ws/tdsa #socket连接路径 url后可以带参数 如ws://localhost:8888/ws/tdsa?userId=1
+
+
+minio:
+  endpoint: http://127.0.0.1:9000
+  access-key: admin
+  secret-key: admin123
+  bucket: public
