@@ -4,6 +4,7 @@ import com.alibaba.fastjson2.JSON;
 import io.minio.*;
 import io.minio.errors.*;
 import io.minio.messages.Item;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,7 @@ import java.util.List;
  * minio 操作类
  */
 @Service
+@Slf4j
 public class MinioService {
 
     @Autowired
@@ -33,7 +35,7 @@ public class MinioService {
 
     @Value("${minio.endpoint}")
     private String endpoint;
-    public List<Object> list()throws Exception {
+    public List<Object> list() throws Exception {
         //获取bucket列表
         Iterable<Result<Item>> myObjects = minioClient.listObjects(ListObjectsArgs.builder().bucket(bucket).build());
         Iterator<Result<Item>> iterator = myObjects.iterator();
@@ -100,16 +102,19 @@ public class MinioService {
 
     /**
      * 删除文件
-     * @param remotePath 远程路径
+     * @param filename 文件名
      * @return
      */
-    public void delete(String remotePath) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
-        RemoveObjectArgs args = RemoveObjectArgs.builder()
-                .bucket(bucket)
-                .object(remotePath)
-                .build();
-        minioClient.removeObject(args);
-
+    public void delete(String filename) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
+        StatObjectArgs statObjectArgs = StatObjectArgs.builder().object(filename).bucket(bucket).build();
+        boolean isObjectExists = minioClient.statObject(statObjectArgs) != null;
+        if (isObjectExists) {
+            RemoveObjectArgs args = RemoveObjectArgs.builder()
+                    .bucket(bucket)
+                    .object(filename)
+                    .build();
+            minioClient.removeObject(args);
+        }
     }
 
     /**

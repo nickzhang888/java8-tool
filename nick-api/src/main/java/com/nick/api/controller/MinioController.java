@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -47,13 +48,24 @@ public class MinioController {
     }
 
     @PostMapping("/remove")
-
-    public AjaxResult remove(String filename) {
+    public AjaxResult remove(String filename) throws Exception {
         try {
             minioService.delete(filename);
         } catch (Exception e) {
-            log.error(e.getMessage());
-            return AjaxResult.error();
+            log.error("问题:"+e.getMessage());
+            return AjaxResult.error("此文件不存在!");
+        }
+        List<Object> list = minioService.list();
+        return AjaxResult.success();
+    }
+    //有问题
+    @PostMapping("/remove1")
+    public AjaxResult remove1(String filename) throws Exception {
+        List<Object> list = minioService.list();
+        for (Object item : list) {
+            log.info(item.toString());
+//            if (item.getValue() == filename) {
+//            }
         }
         return AjaxResult.success();
     }

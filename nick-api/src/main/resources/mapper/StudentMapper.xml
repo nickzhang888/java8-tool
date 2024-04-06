@@ -10,9 +10,9 @@
         <result property="age" column="age"/>
         <result property="sex" column="sex"/>
         <result property="describe" column="describe"/>
+        <result property="avatar" column="avatar"/>
     </resultMap>
 <!--    resultMap->复杂的映射逻辑 ,resultType->简单的映射逻辑,选其一即可-->
-
     <select id="findUser" resultMap="StudentResult">
         SELECT student.*,
         (case when sex = '女' then  (CASE
@@ -26,19 +26,20 @@
             <if test="name != null">and name = #{name}</if>
             <if test="age != null">and age = #{age}</if>
             <if test="sex != null">and sex = #{sex}</if>
-            <if test="sex == '女'">AND sex = '女'</if>
+            <if test="avatar != null">and avatar = #{avatar}</if>
         </where>
         ORDER BY id ASC
     </select>
     <insert id="addUser" useGeneratedKeys="true" keyColumn="id" keyProperty="id" parameterType="Student">
-        INSERT INTO student(name, age, sex)
-        VALUES (#{name}, #{age}, #{sex})
+        INSERT INTO student(name, age, sex ,avatar)
+        VALUES (#{name}, #{age}, #{sex},#{avatar})
     </insert>
     <update id="updateUser" parameterType="Student">
         UPDATE student
-        SET name = #{name},
-            age  = #{age},
-            sex  = #{sex}
+        SET name   = #{name},
+            age    = #{age},
+            sex    = #{sex},
+            avatar = #{avatar}
         WHERE id = #{id}
     </update>
     <delete id="deleteUserByIds" parameterType="Long">
