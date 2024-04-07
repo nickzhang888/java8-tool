@@ -35,6 +35,7 @@ public class MinioService {
 
     @Value("${minio.endpoint}")
     private String endpoint;
+
     public List<Object> list() throws Exception {
         //获取bucket列表
         Iterable<Result<Item>> myObjects = minioClient.listObjects(ListObjectsArgs.builder().bucket(bucket).build());
@@ -47,6 +48,7 @@ public class MinioService {
         }
         return items;
     }
+
     private static String formatFileSize(long fileS) {
         DecimalFormat df = new DecimalFormat("#.00");
         String fileSizeString = "";
@@ -65,25 +67,28 @@ public class MinioService {
         }
         return fileSizeString;
     }
+
     /**
      * 本地文件上传
-     * @param localPath 本地路径
+     *
+     * @param localPath  本地路径
      * @param remotePath 远程路径
      * @return 可访问地址
      */
-    public String upload(String localPath,String remotePath) throws IOException, ServerException, InsufficientDataException, ErrorResponseException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
+    public String upload(String localPath, String remotePath) throws IOException, ServerException, InsufficientDataException, ErrorResponseException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
         UploadObjectArgs uploadObjectArgs = UploadObjectArgs.builder()
                 .bucket(bucket)
                 .object(localPath)
                 .filename(remotePath)
                 .build();
         minioClient.uploadObject(uploadObjectArgs);
-        return endpoint + "/" + bucket + "/" + remotePath;
+        return "/" + bucket + "/" + remotePath;
     }
 
     /**
      * 用流上传
-     * @param file 文件
+     *
+     * @param file       文件
      * @param remotePath 远程路径
      * @return 可访问地址
      */
@@ -97,11 +102,12 @@ public class MinioService {
                 .contentType(file.getContentType())
                 .build();
         minioClient.putObject(args);
-        return endpoint + "/" + bucket + "/" + remotePath;
+        return "/" + bucket + "/" + remotePath;
     }
 
     /**
      * 删除文件
+     *
      * @param filename 文件名
      * @return
      */
@@ -119,6 +125,7 @@ public class MinioService {
 
     /**
      * 获取流
+     *
      * @param remotePath 远程路径
      */
     public InputStream getInputStream(String remotePath) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
