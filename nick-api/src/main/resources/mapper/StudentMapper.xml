@@ -15,11 +15,11 @@
 <!--    resultMap->复杂的映射逻辑 ,resultType->简单的映射逻辑,选其一即可-->
     <select id="findUser" resultMap="StudentResult">
         SELECT student.*,
-        (case when sex = '女' then  (CASE
-        WHEN age &lt;= 20 THEN '年轻,漂亮'
-        WHEN age &gt; 20 AND age &lt;= 28 THEN '风华正茂'
-        ELSE '老了'
-        END) end)  AS `describe`
+        (case when sex = '女' then (case
+        when age &lt;= 20 then '年轻,漂亮'
+        when age &gt; 20 and age &lt;= 28 then '风华正茂'
+        else '老了'
+        end) end) AS `describe`
         FROM student
         <where>
             <if test="id != null">and id = #{id}</if>
@@ -33,6 +33,13 @@
     <insert id="addUser" useGeneratedKeys="true" keyColumn="id" keyProperty="id" parameterType="Student">
         INSERT INTO student(name, age, sex ,avatar)
         VALUES (#{name}, #{age}, #{sex},#{avatar})
+    </insert>
+    <insert id="batchInsertUsers" parameterType="java.util.List">
+        INSERT INTO student(name, age, sex, avatar)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.name}, #{item.age}, #{item.sex}, #{item.avatar})
+        </foreach>
     </insert>
     <update id="updateUser" parameterType="Student">
         UPDATE student

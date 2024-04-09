@@ -19,6 +19,7 @@ public class Student {
     private String sex;
     @Excel(name = "描述")
     private String describe;
+    @Excel(name = "头像")
     private String avatar;
 
     public Student() {

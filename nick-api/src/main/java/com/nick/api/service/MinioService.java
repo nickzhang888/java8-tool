@@ -95,13 +95,15 @@ public class MinioService {
     public String upload(MultipartFile file, String remotePath) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
 //        file.getSize可以获取文件大小
 //        文件大小设置为 -1 表示未知，分片大小设置为 10485760 字节（即 10 MB）。
+        InputStream is = file.getInputStream();
         PutObjectArgs args = PutObjectArgs.builder()
                 .bucket(bucket)
                 .object(remotePath)
-                .stream(file.getInputStream(), -1, 10485760)
+                .stream(is, -1, 10485760)
                 .contentType(file.getContentType())
                 .build();
         minioClient.putObject(args);
+        is.close();
         return "/" + bucket + "/" + remotePath;
     }
 

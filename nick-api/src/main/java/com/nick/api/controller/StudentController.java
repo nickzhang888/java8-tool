@@ -35,6 +35,7 @@ public class StudentController extends BaseController {
     public Integer getPortByValue() {
         return port;
     }
+
     @GetMapping("/getPort")
     public Integer getPort() {
         return Integer.valueOf(Objects.requireNonNull(environment.getProperty("server.port")));
@@ -44,7 +45,6 @@ public class StudentController extends BaseController {
     public String getPersonalInfo() {
         return personalInfo.toString();
     }
-
 
     @GetMapping("/hello")
     public AjaxResult hello() {
@@ -71,13 +71,22 @@ public class StudentController extends BaseController {
         List<Student> list = studentService.findUser(student);
         return getDataTable(list);
     }
+
     @PostMapping("/exportUser")
     @ResponseBody
-    public void export(HttpServletResponse response,Student student) throws IOException {
+    public void export(HttpServletResponse response, Student student) throws IOException {
         List<Student> list = studentService.findUser(student);
         ExcelUtil<Student> util = new ExcelUtil<>(Student.class);
-        util.exportExcel(response,list, "用户数据");
+        util.exportExcel(response, list, "用户数据");
     }
+//    @PostMapping("/importData")
+//    public AjaxResult importData(MultipartFile file, boolean updateSupport) throws Exception {
+//        ExcelUtil<Student> util = new ExcelUtil<>(Student.class);
+//        List<Student> userList = util.importExcel(file.getInputStream());
+//        String operName = getUsername();
+//        String message = userService.importUser(userList, updateSupport, operName);
+//        return success(message);
+//    }
 
     @PostMapping("/addUser")
     public AjaxResult addUser(@RequestBody Student student) {
@@ -100,5 +109,7 @@ public class StudentController extends BaseController {
 //        return ResponseEntity.ok(response);
         return toAjax(studentService.deleteUserByIds(ids));
     }
+
+
 
 }
