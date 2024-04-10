@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -79,14 +80,13 @@ public class StudentController extends BaseController {
         ExcelUtil<Student> util = new ExcelUtil<>(Student.class);
         util.exportExcel(response, list, "用户数据");
     }
-//    @PostMapping("/importData")
-//    public AjaxResult importData(MultipartFile file, boolean updateSupport) throws Exception {
-//        ExcelUtil<Student> util = new ExcelUtil<>(Student.class);
-//        List<Student> userList = util.importExcel(file.getInputStream());
-//        String operName = getUsername();
-//        String message = userService.importUser(userList, updateSupport, operName);
-//        return success(message);
-//    }
+    @PostMapping("/importData")
+    public AjaxResult importData(MultipartFile file, boolean updateSupport) throws Exception {
+        ExcelUtil<Student> util = new ExcelUtil<>(Student.class);
+        List<Student> list = util.importExcel(file.getInputStream());
+        studentService.importUser(list, updateSupport);
+        return success("导入成功");
+    }
 
     @PostMapping("/addUser")
     public AjaxResult addUser(@RequestBody Student student) {
