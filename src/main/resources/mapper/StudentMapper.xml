@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nick.api.mapper.StudentMapper">
+    <select id="findUser">
+        SELECT * FROM student
+        <where>
+            <if test="id != null">and id = #{id}</if>
+            <if test="name != null">and name = #{name}</if>
+            <if test="age != null">and age = #{age}</if>
+            <if test="sex != null">and sex = #{sex}</if>
+        </where>
+    </select>
+    <insert id="addUser" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO student(name, age, sex)
+        VALUES (#{name}, #{age}, #{sex})
+    </insert>
+    <update id="updateUser">
+        UPDATE student
+        SET name = #{name},
+            age  = #{age},
+            sex=#{sex}
+        WHERE id = #{id}
+    </update>
+    <delete id="deleteUserById">
+        DELETE
+        FROM student
+        WHERE id = #{id}
+    </delete>
+</mapper>

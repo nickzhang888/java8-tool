@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nick.api.mapper.CityMapper">
+    <select id="findCity">
+        SELECT * FROM city
+        <where>
+            <if test="id != null">and id = #{id}</if>
+            <if test="name != null">and name = #{name}</if>
+            <if test="code != null">and code = #{code}</if>
+        </where>
+    </select>
+    <insert id="addCity" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO city(name, code)
+        VALUES (#{name}, #{code})
+    </insert>
+    <update id="updateCity">
+        UPDATE city
+        SET name = #{name},
+            code = #{code},
+            WHERE id = #{id}
+    </update>
+    <delete id="deleteCityById">
+        DELETE
+        FROM city
+        WHERE id = #{id}
+    </delete>
+</mapper>
