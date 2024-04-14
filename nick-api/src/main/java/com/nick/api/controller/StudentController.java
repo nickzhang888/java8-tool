@@ -84,8 +84,8 @@ public class StudentController extends BaseController {
     public AjaxResult importData(MultipartFile file, boolean updateSupport) throws Exception {
         ExcelUtil<Student> util = new ExcelUtil<>(Student.class);
         List<Student> list = util.importExcel(file.getInputStream());
-        studentService.importUser(list, updateSupport);
-        return success("导入成功");
+        String msg = studentService.importUser(list, updateSupport);
+        return success(msg);
     }
 
     @PostMapping("/addUser")

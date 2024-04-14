@@ -4,6 +4,7 @@ import com.nick.common.annotation.Excel;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.Objects;
 
 @Setter
@@ -11,6 +12,9 @@ import java.util.Objects;
 public class Student {
     @Excel(name = "用户id", prompt = "用户编号")
     private Integer id;
+
+    private List<Integer> ids;
+
     @Excel(name = "用户名称")
     private String name;
     @Excel(name = "用户年龄")

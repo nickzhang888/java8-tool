@@ -30,7 +30,7 @@ public class StudentService {
         return studentMapper.deleteUserByIds(ids);
     }
 
-    public void importUser(List<Student> list, Boolean isUpdateSupport) {
+    public String importUser(List<Student> list, Boolean isUpdateSupport) {
         if (StringUtils.isNull(list) || list.isEmpty()) {
             throw new ServiceException("导入用户数据不能为空！");
         }
@@ -41,6 +41,7 @@ public class StudentService {
         for (Student student : list) {
             studentMapper.addUser(student);
         }
+        return "导入成功";
     }
 
 //            try
