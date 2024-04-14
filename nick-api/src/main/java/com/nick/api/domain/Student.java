@@ -26,6 +26,8 @@ public class Student {
     @Excel(name = "头像")
     private String avatar;
 
+    private Integer sort;
+
     public Student() {
 
     }
