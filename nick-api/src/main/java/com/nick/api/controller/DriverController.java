@@ -1,8 +1,8 @@
 package com.nick.api.controller;
 
 import com.nick.api.domain.PersonalInfo;
-import com.nick.api.domain.Student;
-import com.nick.api.service.StudentService;
+import com.nick.api.domain.Driver;
+import com.nick.api.service.DriverService;
 import com.nick.common.annotation.RepeatSubmit;
 import com.nick.common.core.controller.BaseController;
 import com.nick.common.core.domain.AjaxResult;
@@ -21,7 +21,7 @@ import java.util.Objects;
 
 @RestController
 @RequestMapping("/api")
-public class StudentController extends BaseController {
+public class DriverController extends BaseController {
     @Autowired
     private Environment environment;
 
@@ -55,47 +55,47 @@ public class StudentController extends BaseController {
 
     @GetMapping("/test")
     public AjaxResult test() {
-        Student s1 = new Student("小妮", 18, "男");
+        Driver s1 = new Driver("小妮", 18, "男");
         AjaxResult ajax = AjaxResult.success();
         ajax.put("user", s1);
         return ajax;
     }
 
     @Autowired
-    private StudentService studentService;
+    private DriverService driverService;
 
     @GetMapping("/getUser")
     @RepeatSubmit()
-    public TableDataInfo getUser(Student student) {
-        System.err.println(student.getClass().getName());
+    public TableDataInfo getUser(Driver driver) {
+        System.err.println(driver.getClass().getName());
         startPage();
-        List<Student> list = studentService.findUser(student);
+        List<Driver> list = driverService.findUser(driver);
         return getDataTable(list);
     }
 
     @PostMapping("/exportUser")
     @ResponseBody
-    public void export(HttpServletResponse response, Student student) throws IOException {
-        List<Student> list = studentService.findUser(student);
-        ExcelUtil<Student> util = new ExcelUtil<>(Student.class);
+    public void export(HttpServletResponse response, Driver driver) throws IOException {
+        List<Driver> list = driverService.findUser(driver);
+        ExcelUtil<Driver> util = new ExcelUtil<>(Driver.class);
         util.exportExcel(response, list, "用户数据");
     }
     @PostMapping("/importData")
     public AjaxResult importData(MultipartFile file, boolean updateSupport) throws Exception {
-        ExcelUtil<Student> util = new ExcelUtil<>(Student.class);
-        List<Student> list = util.importExcel(file.getInputStream());
-        String msg = studentService.importUser(list, updateSupport);
+        ExcelUtil<Driver> util = new ExcelUtil<>(Driver.class);
+        List<Driver> list = util.importExcel(file.getInputStream());
+        String msg = driverService.importUser(list, updateSupport);
         return success(msg);
     }
 
     @PostMapping("/addUser")
-    public AjaxResult addUser(@RequestBody Student student) {
-        return toAjax(studentService.addUser(student));
+    public AjaxResult addUser(@RequestBody Driver driver) {
+        return toAjax(driverService.addUser(driver));
     }
 
     @PostMapping("/updateUser")
-    public AjaxResult updateUser(@RequestBody Student student) {
-        return toAjax(studentService.updateUser(student));
+    public AjaxResult updateUser(@RequestBody Driver driver) {
+        return toAjax(driverService.updateUser(driver));
     }
 
     @PostMapping("/deleteUser")
@@ -107,9 +107,7 @@ public class StudentController extends BaseController {
 //        response.put("code", 200);
 //        response.put("message", "删除成功");
 //        return ResponseEntity.ok(response);
-        return toAjax(studentService.deleteUserByIds(ids));
+        return toAjax(driverService.deleteUserByIds(ids));
     }
-
-
 
 }

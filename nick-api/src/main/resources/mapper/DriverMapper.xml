@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.nick.api.mapper.StudentMapper">
+<mapper namespace="com.nick.api.mapper.DriverMapper">
 <!--    Student表示实体类 ,id给下面的resultMap使用-->
-    <resultMap type="Student" id="StudentResult">
+    <resultMap type="Driver" id="DriverResult">
         <id property="id" column="id"/>
         <result property="name" column="name"/>
         <result property="age" column="age"/>
@@ -14,14 +14,14 @@
         <result property="sort" column="sort"/>
     </resultMap>
 <!--    resultMap->复杂的映射逻辑 ,resultType->简单的映射逻辑,选其一即可-->
-    <select id="findUser" resultMap="StudentResult">
-        SELECT student.*,
+    <select id="findUser" resultMap="DriverResult">
+        SELECT driver.*,
         (case when sex = '女' then (case
         when age &lt;= 20 then '年轻,漂亮'
         when age &gt; 20 and age &lt;= 28 then '风华正茂'
         else '老了'
         end) end) AS `describe`
-        FROM student
+        FROM driver
         <where>
             <if test="ids != null and ids.size() > 0">
                 AND id IN
@@ -37,19 +37,19 @@
         </where>
         ORDER BY id ASC
     </select>
-    <insert id="addUser" useGeneratedKeys="true" keyColumn="id" keyProperty="id" parameterType="Student">
-        INSERT INTO student(name, age, sex ,avatar)
+    <insert id="addUser" useGeneratedKeys="true" keyColumn="id" keyProperty="id" parameterType="Driver">
+        INSERT INTO driver(name, age, sex ,avatar)
         VALUES (#{name}, #{age}, #{sex},#{avatar})
     </insert>
     <insert id="batchInsertUsers" parameterType="java.util.List">
-        INSERT INTO student(name, age, sex, avatar)
+        INSERT INTO driver(name, age, sex, avatar)
         VALUES
         <foreach collection="list" item="item" separator=",">
             (#{item.name}, #{item.age}, #{item.sex}, #{item.avatar})
         </foreach>
     </insert>
-    <update id="updateUser" parameterType="Student">
-        UPDATE student
+    <update id="updateUser" parameterType="Driver">
+        UPDATE driver
         SET name   = #{name},
             age    = #{age},
             sex    = #{sex},
@@ -58,7 +58,7 @@
     </update>
     <delete id="deleteUserByIds" parameterType="Long">
         DELETE
-        FROM student
+        FROM driver
         WHERE id in
         <foreach collection="array" item="id" open="(" separator="," close=")">
             #{id}

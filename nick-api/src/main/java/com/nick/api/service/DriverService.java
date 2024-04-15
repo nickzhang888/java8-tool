@@ -1,7 +1,7 @@
 package com.nick.api.service;
 
-import com.nick.api.domain.Student;
-import com.nick.api.mapper.StudentMapper;
+import com.nick.api.domain.Driver;
+import com.nick.api.mapper.DriverMapper;
 import com.nick.common.exception.ServiceException;
 import com.nick.common.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,27 +10,27 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class StudentService {
+public class DriverService {
     @Autowired
-    private StudentMapper studentMapper;
+    private DriverMapper driverMapper;
 
-    public List<Student> findUser(Student student) {
-        return studentMapper.findUser(student);
+    public List<Driver> findUser(Driver driver) {
+        return driverMapper.findUser(driver);
     }
 
-    public int addUser(Student student) {
-        return studentMapper.addUser(student);
+    public int addUser(Driver driver) {
+        return driverMapper.addUser(driver);
     }
 
-    public int updateUser(Student student) {
-        return studentMapper.updateUser(student);
+    public int updateUser(Driver driver) {
+        return driverMapper.updateUser(driver);
     }
 
     public int deleteUserByIds(Long[] ids) {
-        return studentMapper.deleteUserByIds(ids);
+        return driverMapper.deleteUserByIds(ids);
     }
 
-    public String importUser(List<Student> list, Boolean isUpdateSupport) {
+    public String importUser(List<Driver> list, Boolean isUpdateSupport) {
         if (StringUtils.isNull(list) || list.isEmpty()) {
             throw new ServiceException("导入用户数据不能为空！");
         }
@@ -38,8 +38,8 @@ public class StudentService {
         int failureNum = 0;
         StringBuilder successMsg = new StringBuilder();
         StringBuilder failureMsg = new StringBuilder();
-        for (Student student : list) {
-            studentMapper.addUser(student);
+        for (Driver driver : list) {
+            driverMapper.addUser(driver);
         }
         return "导入成功";
     }
@@ -47,7 +47,7 @@ public class StudentService {
 //            try
 //            {
 //                // 验证是否存在这个用户
-//                SysUser u = studentMapper.selectUserByUserName(user.getUserName());
+//                SysUser u = driverMapper.selectUserByUserName(user.getUserName());
 //                if (StringUtils.isNull(u))
 //                {
 //                    BeanValidators.validateWithException(validator, user);

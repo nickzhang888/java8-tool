@@ -9,7 +9,7 @@ import java.util.Objects;
 
 @Setter
 @Getter
-public class Student {
+public class Driver {
     @Excel(name = "用户id", prompt = "用户编号")
     private Integer id;
 
@@ -28,12 +28,12 @@ public class Student {
 
     private Integer sort;
 
-    public Student() {
+    public Driver() {
 
     }
 
 
-    public Student(String name, Integer age, String sex) {
+    public Driver(String name, Integer age, String sex) {
         this.name = name;
         this.age = age;
         this.sex = sex;
@@ -43,7 +43,7 @@ public class Student {
 
     @Override
     public String toString() {
-        return "Student{" +
+        return "Driver{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", age=" + age +
@@ -57,9 +57,9 @@ public class Student {
             return true;
         if (o == null || getClass() != o.getClass())
             return false;
-        Student student = (Student) o;
-        return id == student.id && age == student.age && Objects.equals(name, student.name)
-                && Objects.equals(sex, student.sex);
+        Driver driver = (Driver) o;
+        return id == driver.id && age == driver.age && Objects.equals(name, driver.name)
+                && Objects.equals(sex, driver.sex);
     }
 
     @Override
