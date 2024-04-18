@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nick.api.mapper.MetroInfoMapper">
+
+    <resultMap id="MetroResult" type="MetroInfo">
+<!--        id表示主键-->
+        <id property="metroId" column="metro_id"/>
+        <result property="metroName" column="metro_name"/>
+        <result property="status" column="status"/>
+    </resultMap>
+<!--  使用resultType返回的结果都是null的原因是, resultType返回的MetroInfo类，属性名称都是以驼峰形式命名的，
+比如metroId；而对应的数据库表里面的字段都是下划线形式的，如比如metro_id。-->
+    <select id="getAllByMetroId" resultMap="MetroResult">
+        select * from metro_info
+        <!-- metro_id 为表里列的名字 , metroId为前端传来的属性名 -->
+        <where>
+            <if test="metroId != null">and metro_id = #{metroId}</if>
+        </where>
+    </select>
+</mapper>
