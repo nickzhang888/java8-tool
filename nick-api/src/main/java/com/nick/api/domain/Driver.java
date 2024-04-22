@@ -26,6 +26,8 @@ public class Driver {
     @Excel(name = "头像")
     private String avatar;
 
+    private Integer metroId;
+
     private Integer sort;
 
     public Driver() {

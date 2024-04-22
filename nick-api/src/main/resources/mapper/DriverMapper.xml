@@ -12,6 +12,7 @@
         <result property="describe" column="describe"/>
         <result property="avatar" column="avatar"/>
         <result property="sort" column="sort"/>
+        <result property="metroId" column="metro_id"/>
     </resultMap>
 <!--    resultMap->复杂的映射逻辑 ,resultType->简单的映射逻辑,选其一即可-->
     <select id="findUser" resultMap="DriverResult">
@@ -38,8 +39,8 @@
         ORDER BY id ASC
     </select>
     <insert id="addUser" useGeneratedKeys="true" keyColumn="id" keyProperty="id" parameterType="Driver">
-        INSERT INTO driver(name, age, sex ,avatar)
-        VALUES (#{name}, #{age}, #{sex},#{avatar})
+        INSERT INTO driver(name, age, sex ,avatar,metro_id)
+        VALUES (#{name}, #{age}, #{sex},#{avatar},#{metroId})
     </insert>
     <insert id="batchInsertUsers" parameterType="java.util.List">
         INSERT INTO driver(name, age, sex, avatar)
@@ -53,7 +54,8 @@
         SET name   = #{name},
             age    = #{age},
             sex    = #{sex},
-            avatar = #{avatar}
+            avatar = #{avatar},
+            metro_id= #{metroId}
         WHERE id = #{id}
     </update>
     <delete id="deleteUserByIds" parameterType="Long">
