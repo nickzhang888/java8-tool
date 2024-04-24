@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.nick.api.mapper.DriverMapper">
-<!--    Student表示实体类 ,id给下面的resultMap使用-->
+    <!--    Student表示实体类 ,id给下面的resultMap使用-->
     <resultMap type="Driver" id="DriverResult">
         <id property="id" column="id"/>
         <result property="name" column="name"/>
@@ -14,7 +14,7 @@
         <result property="sort" column="sort"/>
         <result property="metroId" column="metro_id"/>
     </resultMap>
-<!--    resultMap->复杂的映射逻辑 ,resultType->简单的映射逻辑,选其一即可-->
+    <!--    resultMap->复杂的映射逻辑 ,resultType->简单的映射逻辑,选其一即可-->
     <select id="findUser" resultMap="DriverResult">
         SELECT driver.*,
         (case when sex = '女' then (case
@@ -39,8 +39,8 @@
         ORDER BY id ASC
     </select>
     <insert id="addUser" useGeneratedKeys="true" keyColumn="id" keyProperty="id" parameterType="Driver">
-        INSERT INTO driver(name, age, sex ,avatar,metro_id)
-        VALUES (#{name}, #{age}, #{sex},#{avatar},#{metroId})
+        INSERT INTO driver(name, age, sex, avatar, metro_id)
+        VALUES (#{name}, #{age}, #{sex}, #{avatar}, #{metroId})
     </insert>
     <insert id="batchInsertUsers" parameterType="java.util.List">
         INSERT INTO driver(name, age, sex, avatar)
@@ -51,10 +51,10 @@
     </insert>
     <update id="updateUser" parameterType="Driver">
         UPDATE driver
-        SET name   = #{name},
-            age    = #{age},
-            sex    = #{sex},
-            avatar = #{avatar},
+        SET name    = #{name},
+            age     = #{age},
+            sex     = #{sex},
+            avatar  = #{avatar},
             metro_id= #{metroId}
         WHERE id = #{id}
     </update>

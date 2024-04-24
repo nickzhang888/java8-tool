@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -70,6 +71,13 @@ public class DriverController extends BaseController {
         System.err.println(driver.getClass().getName());
         startPage();
         List<Driver> list = driverService.findUser(driver);
+        for (Driver d : list) {
+            if (d.getIds() == null) {
+                d.setIds(new ArrayList<>());
+            }if (d.getSort() == null) {
+                d.setSort(0);
+            }
+        }
         return getDataTable(list);
     }
 
@@ -80,6 +88,7 @@ public class DriverController extends BaseController {
         ExcelUtil<Driver> util = new ExcelUtil<>(Driver.class);
         util.exportExcel(response, list, "用户数据");
     }
+
     @PostMapping("/importData")
     public AjaxResult importData(MultipartFile file, boolean updateSupport) throws Exception {
         ExcelUtil<Driver> util = new ExcelUtil<>(Driver.class);
