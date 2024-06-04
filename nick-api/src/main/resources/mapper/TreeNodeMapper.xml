@@ -12,7 +12,7 @@
     <!--    keyColumn指定数据库表中生成主键的列名,keyProperty: 指定将生成的主键值映射到 Java 对象的哪个属性,
             他两的值可以不相同,但一般是一样的-->
     <insert id="addTreeNode" useGeneratedKeys="true" keyColumn="code" keyProperty="code">
-        INSERT INTO all_city(code, parentCode, name,level)
-        VALUES (#{code},#{parentCode},#{name},#{level})
+        INSERT INTO all_city(code, name, level, parentCode)
+        VALUES (#{code}, #{name}, #{level}, #{parentCode})
     </insert>
 </mapper>
