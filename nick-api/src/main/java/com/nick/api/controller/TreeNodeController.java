@@ -9,6 +9,7 @@ import com.nick.common.core.controller.BaseController;
 import com.nick.common.core.domain.AjaxResult;
 import com.nick.common.core.page.TableDataInfo;
 import com.nick.common.utils.http.HttpUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
+@Slf4j
 public class TreeNodeController extends BaseController {
     @Autowired
     private TreeNodeService treeNodeService;
@@ -49,10 +51,11 @@ public class TreeNodeController extends BaseController {
             arr = obj.getJSONArray("districts");
             treeToList(arr, treeNodes, null);
         }
-
+        // 添加到数据库
         for (TreeNode item : treeNodes) {
             treeNodeService.addTreeNode(item);
         }
+
         return treeNodes;
     }
 

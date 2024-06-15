@@ -10,7 +10,7 @@ import java.util.List;
 public class MetroInfoService {
     @Autowired
     private MetroInfoMapper MetroInfoMapper;
-    public List<MetroInfo> getMetroInfo(Long id) {
+    public List<MetroInfo> getMetroInfo(Integer id) {
         return MetroInfoMapper.getAllByMetroId(id);
     }
 }

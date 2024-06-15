@@ -1,6 +1,9 @@
 package com.nick.api.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 import lombok.Data;
@@ -14,7 +17,7 @@ public class MetroInfo implements Serializable {
     /**
      * 主键
      */
-    private Long metroId;
+    private Integer metroId;
 
     /**
      * 车辆编号
@@ -25,6 +28,9 @@ public class MetroInfo implements Serializable {
      * 状态（0离线 1在线）
      */
     private String status;
+
+
+    private List<Driver> Children;
 
     @Override
     public boolean equals(Object o) {
@@ -47,4 +53,6 @@ public class MetroInfo implements Serializable {
                 ", status='" + status + '\'' +
                 '}';
     }
+
+
 }

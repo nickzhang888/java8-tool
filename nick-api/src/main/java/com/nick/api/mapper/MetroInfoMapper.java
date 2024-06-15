@@ -11,7 +11,7 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface MetroInfoMapper  {
-     List<MetroInfo> getAllByMetroId(Long id);
+     List<MetroInfo> getAllByMetroId(Integer id);
 }
 
 
