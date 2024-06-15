@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
@@ -35,12 +36,18 @@ public class MetroInfoController extends BaseController {
     }
 
     @GetMapping("/getMetroAndDriver")
-    public AjaxResult getMetroAndDriver(Long metroId) {
-        ArrayList<Object> tree = new ArrayList<>();
+    public AjaxResult getMetroAndDriver(Integer metroId) {
+        ArrayList<MetroInfo> tree = new ArrayList<>();
         List<MetroInfo> metrolist = MetroInfoService.getMetroInfo(null);
         List<Driver> driverList = driverService.findUser(null);
         for (MetroInfo metro : metrolist) {
             tree.add(findChildren(metro, driverList));
+        }
+        //过滤
+        if(metroId!= null){
+           tree = (ArrayList<MetroInfo>) tree.stream()
+                    .filter(e -> Objects.equals(e.getMetroId(), metroId))
+                    .collect(Collectors.toList());
         }
         AjaxResult ajaxResult = AjaxResult.success();
         ajaxResult.put("data", tree);
