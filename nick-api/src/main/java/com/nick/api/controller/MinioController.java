@@ -3,6 +3,7 @@ package com.nick.api.controller;
 import com.nick.api.service.MinioService;
 import com.nick.common.core.domain.AjaxResult;
 import io.minio.errors.*;
+import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
+@Api(tags = "MinIO文件")
 @Slf4j
 @RestController
 @RequestMapping("/api")

@@ -1,0 +1,154 @@
+openapi: 3.0.3
+info:
+  title: javaTool API
+  description: 本地接口文档，可导入 Postman / Swagger UI 测试
+  version: 1.0.0
+servers:
+  - url: http://localhost:8000
+    description: 本地服务
+tags:
+  - name: 告警规则
+  - name: 城市
+paths:
+  /api/warnRule/list:
+    get:
+      tags: [告警规则]
+      summary: 规则列表
+      parameters:
+        - name: ruleName
+          in: query
+          schema: { type: string }
+        - name: warnType
+          in: query
+          schema: { type: string }
+        - name: riskLevel
+          in: query
+          schema: { type: string }
+      responses:
+        '200':
+          description: OK
+  /api/warnRule/{id}:
+    get:
+      tags: [告警规则]
+      summary: 规则详情
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer, format: int64 }
+      responses:
+        '200':
+          description: OK
+    delete:
+      tags: [告警规则]
+      summary: 删除规则
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer, format: int64 }
+      responses:
+        '200':
+          description: OK
+  /api/warnRule:
+    post:
+      tags: [告警规则]
+      summary: 新增规则
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WarnRule'
+            example:
+              ruleName: 测试
+              snapAddressId: "20"
+              relatedWarnId: "18"
+              warnType: "1"
+              angleThreshold: "0"
+              duration: "10"
+              riskLevel: "3"
+              conditions:
+                - index: 0
+                  name: 条件1
+                  shipTags: []
+                  shipType: 客船类
+                  shipLengthMin: 0
+                  shipLengthMax: 1
+                  shipWidthMin: 0
+                  shipWidthMax: 1
+                  shipKeyword: "111"
+      responses:
+        '200':
+          description: OK
+    put:
+      tags: [告警规则]
+      summary: 修改规则
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WarnRule'
+      responses:
+        '200':
+          description: OK
+  /api/getSubwayCity:
+    get:
+      tags: [城市]
+      summary: 查询/同步地铁城市
+      parameters:
+        - name: name
+          in: query
+          schema: { type: string }
+        - name: code
+          in: query
+          schema: { type: integer }
+      responses:
+        '200':
+          description: OK
+  /api/updateCityByName:
+    get:
+      tags: [城市]
+      summary: 批量更新城市经纬度
+      parameters:
+        - name: name
+          in: query
+          schema: { type: string }
+        - name: code
+          in: query
+          schema: { type: integer }
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    WarnRule:
+      type: object
+      properties:
+        id: { type: integer, format: int64 }
+        ruleName: { type: string }
+        snapAddressId: { type: string }
+        relatedWarnId: { type: string }
+        warnType: { type: string }
+        angleThreshold: { type: number }
+        duration: { type: integer }
+        riskLevel: { type: string }
+        conditions:
+          type: array
+          items:
+            $ref: '#/components/schemas/WarnRuleCondition'
+    WarnRuleCondition:
+      type: object
+      properties:
+        index: { type: integer }
+        name: { type: string }
+        shipTags:
+          type: array
+          items: { type: string }
+        shipType: { type: string }
+        shipLengthMin: { type: number }
+        shipLengthMax: { type: number }
+        shipWidthMin: { type: number }
+        shipWidthMax: { type: number }
+        shipKeyword: { type: string }

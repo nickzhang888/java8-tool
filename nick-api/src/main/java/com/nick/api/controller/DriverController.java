@@ -8,6 +8,7 @@ import com.nick.common.core.controller.BaseController;
 import com.nick.common.core.domain.AjaxResult;
 import com.nick.common.core.page.TableDataInfo;
 import com.nick.common.utils.poi.ExcelUtil;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@Api(tags = "司机/用户")
 @RestController
 @RequestMapping("/api")
 public class DriverController extends BaseController {

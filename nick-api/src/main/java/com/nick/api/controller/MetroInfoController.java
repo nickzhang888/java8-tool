@@ -6,6 +6,7 @@ import com.nick.api.service.DriverService;
 import com.nick.api.service.MetroInfoService;
 import com.nick.common.core.controller.BaseController;
 import com.nick.common.core.domain.AjaxResult;
+import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+@Api(tags = "地铁信息")
 @RestController
 @RequestMapping("/api")
 @Slf4j

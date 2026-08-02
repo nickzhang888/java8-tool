@@ -7,6 +7,8 @@ import com.nick.api.service.CityService;
 import com.nick.common.core.domain.AjaxResult;
 import com.nick.common.utils.StringUtils;
 import com.nick.common.utils.http.HttpUtils;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+@Api(tags = "城市")
 @RestController
 @RequestMapping("/api")
 public class CityController {
@@ -28,6 +31,7 @@ public class CityController {
     private CityService cityService;
 
     // 更新城市经纬度接口, 只在初始化调用一次
+    @ApiOperation("批量更新城市经纬度")
     @GetMapping("updateCityByName")
     public AjaxResult updateCityByName(City city) {
         AjaxResult ajax = AjaxResult.success();
@@ -72,6 +76,7 @@ public class CityController {
         }
     }
 
+    @ApiOperation("查询/同步地铁城市")
     @GetMapping("/getSubwayCity")
     public AjaxResult subway(City city) {
         AjaxResult ajax = AjaxResult.success();
