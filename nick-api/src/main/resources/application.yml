@@ -45,7 +45,7 @@ spring:
         # #连接池最大阻塞等待时间（使用负值表示没有限制）
         max-wait: -1ms
 
-# MyBatis配置
+# MyBatis配置（兼容旧配置）
 mybatis:
   # 搜索指定包别名
   typeAliasesPackage: com.nick.api.domain
@@ -53,6 +53,16 @@ mybatis:
   mapper-locations: classpath:mapper/*.xml
   # 加载全局的配置文件
 #  configLocation: classpath:mybatis/mybatis-config.xml
+
+# MyBatis-Plus配置
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.nick.api.domain
+  configuration:
+    map-underscore-to-camel-case: true
+  global-config:
+    db-config:
+      id-type: auto
 
 # PageHelper分页插件
 pagehelper:

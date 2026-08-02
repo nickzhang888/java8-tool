@@ -1,17 +1,15 @@
 package com.nick.api.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.nick.api.domain.City;
 import org.apache.ibatis.annotations.Mapper;
 
-import java.util.List;
-
 @Mapper
-public interface CityMapper {
-    public List<City> findCity(City city);
+public interface CityMapper extends BaseMapper<City> {
 
-    public int addCity(City city);
+    int addCity(City city);
 
-    public int updateCity(City city);
+    int updateCity(City city);
 
-    public int deleteCity(Integer id);
+    int deleteCity(Integer id);
 }

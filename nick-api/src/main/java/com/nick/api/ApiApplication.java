@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.redis.core.RedisTemplate;
 
 @SpringBootApplication
-//@ComponentScan("com.nick.**")
+// @ComponentScan("com.nick.**")
 public class ApiApplication {
     @Autowired
     private RedisTemplate redisTemplate;
@@ -16,4 +16,3 @@ public class ApiApplication {
     }
 
 }
-

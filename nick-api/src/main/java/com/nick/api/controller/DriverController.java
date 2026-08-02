@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,7 +28,7 @@ public class DriverController extends BaseController {
     @Autowired
     private PersonalInfo personalInfo;
 
-    //获取端口号
+    // 获取端口号
     @Value("${server.port}")
     private Integer port;
 
@@ -74,7 +73,8 @@ public class DriverController extends BaseController {
         for (Driver d : list) {
             if (d.getIds() == null) {
                 d.setIds(new ArrayList<>());
-            }if (d.getSort() == null) {
+            }
+            if (d.getSort() == null) {
                 d.setSort(0);
             }
         }
@@ -109,13 +109,13 @@ public class DriverController extends BaseController {
 
     @PostMapping("/deleteUser")
     public AjaxResult deleteUser(@RequestBody Long[] ids) {
-//        Map<String, Object> response = new HashMap<String, Object>();
-//        for (Integer id : ids) {
-//            studentService.deleteUserById(id);
-//        }
-//        response.put("code", 200);
-//        response.put("message", "删除成功");
-//        return ResponseEntity.ok(response);
+        // Map<String, Object> response = new HashMap<String, Object>();
+        // for (Integer id : ids) {
+        // studentService.deleteUserById(id);
+        // }
+        // response.put("code", 200);
+        // response.put("message", "删除成功");
+        // return ResponseEntity.ok(response);
         return toAjax(driverService.deleteUserByIds(ids));
     }
 

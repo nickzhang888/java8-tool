@@ -41,7 +41,7 @@ public class TreeNodeController extends BaseController {
     }
 
     public ArrayList<TreeNode> getTreeList() {
-        //参考文档:https://lbsyun.baidu.com/faq/api?title=webapi/district-search/base
+        // 参考文档:https://lbsyun.baidu.com/faq/api?title=webapi/district-search/base
         String url = "http://api.map.baidu.com/api_region_search/v1/?keyword=%E4%B8%AD%E5%9B%BD&sub_admin=2&extensions_code=1&ak=MTdrAebsGT07f9oUQL1cXwTOCFmWyttg";
         String res = HttpUtils.sendGet(url);
         JSONObject obj = JSONObject.parseObject(res);
@@ -59,7 +59,6 @@ public class TreeNodeController extends BaseController {
         return treeNodes;
     }
 
-
     public void treeToList(JSONArray arr, ArrayList<TreeNode> treeNodes, String pCode) {
         for (int i = 0; i < arr.size(); i++) {
             JSONObject jsonObject = arr.getJSONObject(i);
@@ -72,7 +71,6 @@ public class TreeNodeController extends BaseController {
             }
         }
     }
-
 
     @GetMapping("/getCityByCode")
     public TableDataInfo getCityByCode(Long code) {
